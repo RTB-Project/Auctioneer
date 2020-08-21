@@ -9,3 +9,23 @@ Simplified system for automatic sale of various electronic goods (e.g. promotion
 ![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
 
 
+### Components
+
+#### Goods Supplier
+
+#### Lots Provider
+
+#### DSP Store
+
+#### Auction Strategy
+
+#### Auction Manager
+
+#### DSP Communicator
+
+#### Auction History Store
+
+#### Auction Hook
+
+#### Auctions
+
