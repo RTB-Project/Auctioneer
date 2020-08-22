@@ -51,10 +51,24 @@ __Auction Manager__: Mechanism with a high level logic of auction management. Se
 
 __Waiting Bid Timeout__: Maximum bid waiting time.
 
-## Architecture
-
-![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
-
+## Algorithms
 Picture 1 – Sequence diagram of SSP communication with external systems
 
 
+### General
+
+1. Get __Product Set__ from __GoodsSupplier__.
+2. Create __Lot__ for each product on __Product__. __Lot__ contain generated lot identifier and product.
+3. Form __Lots__ from __Lot__, uniting them into one list.
+4. Send over the lots to the __Auction Manager__ and get __Auction Strategy__ (VCG, GSP, etc), 
+__Bidder Candidates__ list, __Waiting Response Timeout__.
+5. Hold auction:
+    1. Send __Auction Invite__ to __Bidder Candidates__ and wait response with __Waiting Bid Timeout__.
+    2. Consumes bid request from __Bidder__ and apply __Auction Strategy__.
+    3. Save __Auction Result__ to __Auction History__ store.
+    4. Send __Win Notification__ to winner.
+    
+
+## Architecture
+
+![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
