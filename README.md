@@ -13,6 +13,10 @@ Simplified system for automatic sale of various electronic goods (e.g. promotion
 
 #### Goods Supplier
 
+Supplies sets of goods (__Product Set__) for sale at auction. The goods are delivered to the system by push model in the form of events, unevenly distributed over time. 
+
+![goods-provider-flow](https://github.com/eutkin/diagrams/blob/master/GoodsSupplierAsFlow.svg)
+
 #### Lots Provider
 
 #### DSP Store
