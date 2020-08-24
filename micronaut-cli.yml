@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.github.eutkin.rtb
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: maven
+features: [annotation-api, app-name, docker, file-watch, hibernate-validator, http-client, jib, junit, kotlin, kotlin-application, kotlin-extension-functions, log4j2, maven, netty-server, openapi, reactor, readme, yaml]
