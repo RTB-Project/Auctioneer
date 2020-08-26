@@ -13,7 +13,9 @@ __DSP__: Demand Side Platform. The platform automatically buys goods via SSP. Ne
 
 __External Goods Supplier__: External platroform that supply __Product Set__ to sold via SSP.
 
-__Product__: An virtual product that provides value for bidders (promocode, game access key, etc). __Product__ has __Product Type__, __Product Description__ and __Product Value__. 
+__Product Set__: A set of __Product__, which is sold via SSP by an abstract supplier. All products is comparable by quality in the set. __Products__ can be not unique in the set. __Product Set__ may contains __Product__ with different __Product Type__.
+
+__Product__: An virtual product that provides value for __Bidder Candidates__ (promocode, game access key, etc). __Product__ has __Product Type__, __Product Description__ and __Product Value__. 
 
 __Product Type__: A unique product kind within the platform. __Product Type__ is related to the __Product__ as one to many, that is, there are many __Products__ of the same __Product Type__, including from different __External Goods Suppliers__.
 
@@ -21,12 +23,9 @@ __Product Description__: __Product__ parameters that may interest the customer.
 
 __Product Value__: __Product__ parameters that are of commercial value (example, promocode value).
 
-__Product Set__: A set of __Product__, which is sold via SSP by an abstract supplier. All products is comparable by quality in the set. __Products__ can be not unique in the set. __Product Set__ may contains __Product__ with different __Product Type__.
-
 __Auction__: Mechanism for distributing goods between auction members. Auction is closed and one-round.
 
-__Lot__: __Product__ sold at auction. Lot and goods set element has relations as one-to-one (One lot contains one set product). Each lot is unique on SSP.
-__Lot__ as well as __Product__ has description and value, which contain __Product Description__ and __Product Value__ accordingly.
+__Lot__: The __Product__ put up for sale at an __Auction__. Once the __Product__ enters the __SSP__, it becomes a __Lot__. Each __Lot__ is unique on SSP.
 
 __Lots__: Set of lots, which is sold at one round of auction.
 
