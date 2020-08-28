@@ -1,4 +1,4 @@
-package io.github.eutkin.rtb
+package io.github.eutkin.rtb.ssp
 
 import io.micronaut.runtime.Micronaut.build
 import io.swagger.v3.oas.annotations.OpenAPIDefinition

@@ -1,5 +1,6 @@
-package io.github.eutkin.rtb.goods
+package io.github.eutkin.rtb.ssp.impl.entrypoint
 
+import io.github.eutkin.rtb.ssp.impl.lot.ProductType
 import io.swagger.v3.oas.annotations.media.Schema
 import java.math.BigDecimal
 
@@ -7,7 +8,7 @@ import java.math.BigDecimal
         description = "Supplied product.",
         accessMode = Schema.AccessMode.WRITE_ONLY
 )
-data class RawProduct(
+data class Product(
         @Schema(
                 description = "Product description. Translate to all bidder.",
                 required = true,
@@ -31,6 +32,13 @@ data class RawProduct(
         val value: Map<String, Any>,
 
         @Schema(
+                description = "Type of product. Should be a previously agreed constant",
+                example = "promocode",
+                required = true
+        )
+        val productType: ProductType,
+
+        @Schema(
                 description = "Minimal price.",
                 defaultValue = "0",
                 example = "109.9"
@@ -45,5 +53,5 @@ data class RawProduct(
                 example = "10",
                 defaultValue = "109.9"
         )
-        val quality: BigDecimal = price
+        val quality: Double = price.toDouble()
 )

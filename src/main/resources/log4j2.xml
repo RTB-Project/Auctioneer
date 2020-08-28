@@ -6,9 +6,6 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Logger name="io.github.eutkin.rtb" level="debug" additivity="false">
-      <AppenderRef ref="LogToConsole"/>
-    </Logger>
     <Root level="error">
       <AppenderRef ref="LogToConsole"/>
     </Root>
