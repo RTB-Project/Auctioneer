@@ -288,8 +288,11 @@
         <artifactId>jib-maven-plugin</artifactId>
         <version>2.4.0</version>
         <configuration>
+          <from>
+            <image>adoptopenjdk/openjdk14:jre</image>
+          </from>
           <to>
-            <image>gcr.io/ssp/jib-image</image>
+            <image>eutkin/ssp</image>
           </to>
         </configuration>
       </plugin>

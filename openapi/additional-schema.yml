@@ -1,0 +1,33 @@
+components:
+  schemas:
+    Product:
+      type: object
+      writeOnly: true
+      properties:
+        description:
+          type: object
+          description: Product description. Translate to all bidder.
+          additionalProperties: true
+          example:
+            game: FIFA17
+        value:
+          type: object
+          additionalProperties: true
+          example:
+            code: SUMMER2017
+        productType:
+          type: string
+          example: promocode
+          description: Type of product. Should be a previously agreed constant
+        price:
+          type: number
+          minimum: 0.01
+          default: 0
+          description: Minimal price.
+          example: 109.9
+        quality:
+          type: number
+          format: double
+          description: Degree of product quality relative to other products in the set. Default value is minimal price
+          example: 10
+      description: Supplied product.
