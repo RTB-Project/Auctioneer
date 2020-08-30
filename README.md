@@ -49,13 +49,17 @@ __Auction Strategy__: Winner selection and payment amount algorithm – VCG, GSP
 
 ## Architecture
 
+![pic0](https://github.com/eutkin/diagrams/blob/master/general-architecture.svg)
+
+Picture 1 – Architecture of SSP 
+
 ![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
 
-Picture 1 – Sequence diagram of SSP communication with external systems
+Picture 2 – Sequence diagram of SSP communication with external systems
 
-![pic2](https://github.com/eutkin/diagrams/blob/master/general-architecture.svg)
+![pic2)(https://github.com/eutkin/diagrams/blob/master/SSP_Flow.svg)
 
-Picture 2 – Auction algorithm Sequence diagram
+Picture 3 – Auction algorithm Sequence diagram
 
 ### Components
 
