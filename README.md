@@ -14,16 +14,15 @@ __RTB__: Real-Time Bidding.
 
 __Goods Supplier__: Supply __Product__ to sold. #fixme extend termin
 
-__Product__: An virtual product that provides value for bidders (promocode, game access key, etc). __Product__ has __Product Description__ and __Product Value__. 
+__Product__: An virtual product that provides value for bidders (promocode, game access key, etc). __Product__ has __Product ID__, __Product Description__ and __Product Value__. 
+
+__Product ID__: unique identifier for each product in __Product Set__.
 
 __Product Description__: __Product__ parameters that may interest the customer.
 
 __Product Value__: __Product__ parameters that are of commercial value (example, promocode value).
 
-__Product Set__: A set of __Product__, which is sold via SSP by an abstract supplier. All products is comparable by quality in the set. __Products__ can be not unique in the set. Goods has attibutes: goods supplier code, product code, product description and product.
-`#fixme goods is quantum of goods flow from supplier.`
-
-  > _Set_ in __Product Set__ is not equal Math Set.
+__Product Set__: A set of __Product__, which is sold via SSP by an abstract supplier. All products is comparable by quality in the set.
 
 __Auction__: Mechanism for distributing goods between auction members. Auction is closed and one-round.
 
@@ -52,6 +51,9 @@ __Auction Manager__: Mechanism with a high level logic of auction management. Se
 __Waiting Bid Timeout__: Maximum bid waiting time.
 
 ## Algorithms
+
+![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
+
 Picture 1 – Sequence diagram of SSP communication with external systems
 
 
@@ -71,4 +73,4 @@ __Bidder Candidates__ list, __Waiting Response Timeout__.
 
 ## Architecture
 
-![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
+![pic2](https://github.com/eutkin/diagrams/blob/master/general-architecture.svg)
