@@ -4,7 +4,6 @@
 
 Simplified system for automatic sale of various electronic goods (e.g. promotional codes, game keys) in real time bidding.
 
-
 ## Terminology
 
 __SSP__: Supply / Sell Side platform. The platform automatically distributes goods to bidders by using an auction.
@@ -15,13 +14,17 @@ __External Goods Supplier__: External platroform that supply __Product Set__ to 
 
 __Product Set__: A set of __Product__, which is sold via SSP by an abstract supplier. All products is comparable by quality in the set. __Products__ can be not unique in the set. __Product Set__ may contains __Product__ with different __Product Type__.
 
-__Product__: An virtual product that provides value for __Bidder Candidates__ (promocode, game access key, etc). __Product__ has __Product Type__, __Product Description__ and __Product Value__. 
+__Product__: An virtual product that provides value for __Bidder Candidates__ (promocode, game access key, etc). __Product__ has __Product ID__, __Product Description__ and __Product Value__. 
+
+__Product ID__: unique identifier for each product in __Product Set__.
 
 __Product Type__: A unique product kind within the platform. __Product Type__ is related to the __Product__ as one to many, that is, there are many __Products__ of the same __Product Type__, including from different __External Goods Suppliers__.
 
 __Product Description__: __Product__ parameters that may interest the customer.
 
 __Product Value__: __Product__ parameters that are of commercial value (example, promocode value).
+
+__Product Set__: A set of __Product__, which is sold via SSP by an abstract supplier. All products is comparable by quality in the set.
 
 __Auction__: Mechanism for distributing goods between auction members. Auction is closed and one-round.
 
@@ -46,7 +49,7 @@ __Auction Strategy__: Winner selection and payment amount algorithm – VCG, GSP
 
 ## Architecture
 
-![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
+![pic2](https://github.com/eutkin/diagrams/blob/master/general-architecture.svg)
 
 Picture 1 – Sequence diagram of SSP communication with external systems
 
