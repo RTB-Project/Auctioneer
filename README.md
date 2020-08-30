@@ -49,6 +49,30 @@ __Auction Strategy__: Winner selection and payment amount algorithm – VCG, GSP
 
 ## Architecture
 
+### Components by Business Processes
+
+External systems:
+
+- __DSP__, buyer. Purchases the goods he is interested in at an auction via SSP
+
+- __Goods Supplier__, merchant. Supplies goods for auction sale.
+
+SSP Public services:
+
+- __Auctioneer__, mediator between buyers and sellers. Depending on the selected type of auction, either maximizes the seller's profit or distributes the offered goods in a socially equitable way (e.g. VCG auctions).
+
+- __Admin Panel__. Controls __Goods Suppliers__, __DSP__. Registers them in the system, grants accesses, restricts the types of goods sold and the way they are distributed.
+
+- __Trading Reporter__. Provides trading reports for merchants and buyers.
+
+### SSP Components 
+
+
+
+
+
+
+
 ![pic0](https://github.com/eutkin/diagrams/blob/master/general-architecture.svg)
 
 Picture 1 – Architecture of SSP 
@@ -60,25 +84,3 @@ Picture 2 – Sequence diagram of SSP communication with external systems
 ![pic2](https://github.com/eutkin/diagrams/blob/master/SSP_Flow.svg)
 
 Picture 3 – Auction algorithm Sequence diagram
-
-### Components
-
-#### Goods Supplier
-
-Entrypoint for external goods supplier. Example, REST API Endpoint.
-
-Supplies sets of goods (__Product Set__) for sale at auction. The goods are delivered to the system by push model in the form of events, unevenly distributed over time. 
-
-![goods-provider-flow](https://github.com/eutkin/diagrams/blob/master/GoodsSupplierAsFlow.svg)
-
-Each __Product__ in the __Product Set__ must be comparable in quality and typified.
-
-> Example, __Product Set__ contains game access keys. The keys can be comparable by game price.
-
-#### Lots Provider
-
-Form __Lots__ from __Product Set__. __Lot__ is wrapper for __Product__. Each __Lot__ has unique identifies (UUID) and is comparable by __Product__.
-
-#### Bidder Inviter
-
-Searchs for __Bidder Candidates__ in __Bidder Store__ by __Product Type__ and sends invite them.
