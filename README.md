@@ -57,7 +57,7 @@ Picture 1 – Architecture of SSP
 
 Picture 2 – Sequence diagram of SSP communication with external systems
 
-![pic2)(https://github.com/eutkin/diagrams/blob/master/SSP_Flow.svg)
+![pic2](https://github.com/eutkin/diagrams/blob/master/SSP_Flow.svg)
 
 Picture 3 – Auction algorithm Sequence diagram
 
