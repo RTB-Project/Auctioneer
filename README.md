@@ -73,14 +73,14 @@ SSP Public services:
 
 
 
-![pic0](https://github.com/eutkin/diagrams/blob/master/general-architecture.svg)
+![pic0](doc/architecture.svg)
 
 Picture 1 – Architecture of SSP 
 
-![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
+![pic1](doc/ssp-with-external-system-relations.svg)
 
 Picture 2 – Sequence diagram of SSP communication with external systems
 
-![pic2](https://github.com/eutkin/diagrams/blob/master/SSP_Flow.svg)
+![pic2](doc/bussines-flow-ssp-and-external-systems.svg)
 
 Picture 3 – Auction algorithm Sequence diagram
