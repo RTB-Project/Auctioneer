@@ -106,6 +106,10 @@ Picture 2 – Sequence diagram of __Auctioneer__ communication with external sys
 
 __Auctioneer__ is an mediator between __Goods Supplier__ and __DSP__.  Its mission is to distribute goods coming from __Goods Supplier__ to the __DSP__. For the distribution can be used any generally accepted algorithms approved by both __Goods Supplier__ and __DSP__.
 
-![pic2](doc/bussines-flow-ssp-and-external-systems.svg)
+![pic3](doc/1-auctioner-architecture/doc/auctioneer_modules.svg)
 
-Picture 3 – Auction algorithm Sequence diagram
+Picture 3 – __Auctioneer__ service components
+
+![pic4](doc/bussines-flow-ssp-and-external-systems.svg)
+
+Picture 4 – __Auctioneer__ algorithm Sequence diagram
