@@ -67,12 +67,6 @@ SSP Public services:
 
 ### SSP Components 
 
-
-
-
-
-
-
 ![pic0](doc/architecture.svg)
 
 Picture 1 – Architecture of SSP 
