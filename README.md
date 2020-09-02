@@ -49,21 +49,13 @@ __Auction Strategy__: Winner selection and payment amount algorithm – VCG, GSP
 
 ## Architecture
 
-### Components by Business Processes
+### Business Processes Participants
 
-External systems:
+- __DSP__, buyer.
 
-- __DSP__, buyer. Purchases the goods he is interested in at an auction via SSP
+- __Goods Supplier__, merchant.
 
-- __Goods Supplier__, merchant. Supplies goods for auction sale.
-
-SSP Public services:
-
-- __Auctioneer__, mediator between buyers and sellers. Depending on the selected type of auction, either maximizes the seller's profit or distributes the offered goods in a socially equitable way (e.g. VCG auctions).
-
-- __Admin Panel__. Controls __Goods Suppliers__, __DSP__. Registers them in the system, grants accesses, restricts the types of goods sold and the way they are distributed.
-
-- __Trading Reporter__. Provides trading reports for merchants and buyers.
+- __SSP__, mediator between buyers and sellers. 
 
 ### SSP Components 
 
@@ -104,9 +96,15 @@ Next, let's consider the data flows in the SSP. The order of each stream is show
 9. __Auctioneer__ responses with purchased lots to __Goods Supplier__.
 10. __DSP__ and __Goods Supplier__ request reports about previous auctions.
 
+__Auctioneer__ communicates with external systems as follows:
+
 ![pic1](doc/ssp-with-external-system-relations.svg)
 
-Picture 2 – Sequence diagram of SSP communication with external systems
+Picture 2 – Sequence diagram of __Auctioneer__ communication with external systems
+
+### Auctioneer
+
+__Auctioneer__ is an mediator between __Goods Supplier__ and __DSP__.  Its mission is to distribute goods coming from __Goods Supplier__ to the __DSP__. For the distribution can be used any generally accepted algorithms approved by both __Goods Supplier__ and __DSP__.
 
 ![pic2](doc/bussines-flow-ssp-and-external-systems.svg)
 
