@@ -291,6 +291,9 @@
           <from>
             <image>adoptopenjdk/openjdk14:jre</image>
           </from>
+          <to>
+            <image>rtbproject/auctioneer</image>
+          </to>
         </configuration>
       </plugin>
     </plugins>
