@@ -49,38 +49,67 @@ __Auction Strategy__: Winner selection and payment amount algorithm – VCG, GSP
 
 ## Architecture
 
-### Components by Business Processes
+### Business Processes Participants
 
-External systems:
+- __DSP__, buyer.
 
-- __DSP__, buyer. Purchases the goods he is interested in at an auction via SSP
+- __Goods Supplier__, merchant.
 
-- __Goods Supplier__, merchant. Supplies goods for auction sale.
+- __SSP__, mediator between buyers and sellers. 
 
-SSP Public services:
+### SSP Components 
 
-- __Auctioneer__, mediator between buyers and sellers. Depending on the selected type of auction, either maximizes the seller's profit or distributes the offered goods in a socially equitable way (e.g. VCG auctions).
+![pic0](doc/architecture.svg)
+
+Picture 1 – Architecture of SSP 
+
+- __Goods Supplier__, merchant. Supplies goods for auction sale. The index `n` means multiple __Goods Suppliers__.
+
+- __DSP__, buyer. Purchases the goods he is interested in at an auction via SSP. The index `k` means multiple __DSP__.
+
+- __Auctioneer__, mediator between buyers and sellers. Depending on the selected type of auction, either maximizes the seller's profit or distributes the offered goods in a socially equitable way (e.g. VCG auctions). Then index `m` means multiple __Auctioneer__ instances.
 
 - __Admin Panel__. Controls __Goods Suppliers__, __DSP__. Registers them in the system, grants accesses, restricts the types of goods sold and the way they are distributed.
 
 - __Trading Reporter__. Provides trading reports for merchants and buyers.
 
-### SSP Components 
+- __Merchant/Buyer UI__. __Goods Supplier__/__DSP__ user interface.
 
+- __Api Gateway__. Single entrypoint for __Merchant/Buyer UI__ and public SSP REST API.
 
+- __Common Store__. Persistent OLTP storage of information about the __Product Types__, __DSP__, __DSP product type subscriptions__, __GoodsSuppliers__.
 
+- __Common Store Cache__. In-memory storage data projections from __Common Store__. It is used for performance improvement and scale-up of __Auctioneer__.
 
+- __History Store__. Persistent OLAP storage of information about the previous auctions. It is data source for __Trainding Reporter__.
 
+Next, let's consider the data flows in the SSP. The order of each stream is shown as a number in picture 1.
 
+1. The __Goods Supplier__ registers with the SSP via __Merchant UI__. When registering, it selects __Product Types__ from the list it is going to supply. Or ot registers a new __Product Type__.
+2. __DSP__ registers with the SSP via __Buyer UI__. When registering, it selects __Product Types__ from the list it is going to buy. 
+3. __Goods Supplier__ sends __Auctioneer__ __Product Set__ for sale.
+4. __Auctioneer__ reads __Bidder Candidates__ from __Common Store Cache__.
+5. __Auctioneer__ invites __Bidder Candidates__(__DSP__) to auction.
+6. __Bidder Candidates__ responses with bids or declined to participate.
+7. __Auctioneer__ hold of auction and save auction results to __History Store__.
+8. __Auctioneer__ sends purchased lots to __Bidder__ (__DSP__).
+9. __Auctioneer__ responses with purchased lots to __Goods Supplier__.
+10. __DSP__ and __Goods Supplier__ request reports about previous auctions.
 
-![pic0](https://github.com/eutkin/diagrams/blob/master/general-architecture.svg)
+__Auctioneer__ communicates with external systems as follows:
 
-Picture 1 – Architecture of SSP 
+![pic1](doc/ssp-with-external-system-relations.svg)
 
-![pic1](https://github.com/eutkin/diagrams/blob/master/GeneralDataFlow.svg)
+Picture 2 – Sequence diagram of __Auctioneer__ communication with external systems
 
-Picture 2 – Sequence diagram of SSP communication with external systems
+### Auctioneer
 
-![pic2](https://github.com/eutkin/diagrams/blob/master/SSP_Flow.svg)
+__Auctioneer__ is an mediator between __Goods Supplier__ and __DSP__.  Its mission is to distribute goods coming from __Goods Supplier__ to the __DSP__. For the distribution can be used any generally accepted algorithms approved by both __Goods Supplier__ and __DSP__.
 
-Picture 3 – Auction algorithm Sequence diagram
+![pic3](doc/auctioneer_modules.svg)
+
+Picture 3 – __Auctioneer__ service components
+
+![pic4](doc/bussines-flow-ssp-and-external-systems.svg)
+
+Picture 4 – __Auctioneer__ algorithm Sequence diagram
