@@ -1,5 +1,5 @@
 applicationType: default
-defaultPackage: io.github.eutkin.rtb
+defaultPackage: io.github.rtbproject
 testFramework: junit
 sourceLanguage: kotlin
 buildTool: maven

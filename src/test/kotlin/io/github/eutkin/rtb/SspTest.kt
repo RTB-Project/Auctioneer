@@ -1,4 +1,4 @@
-package io.github.eutkin.rtb
+package io.github.rtbproject
 
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.annotation.MicronautTest
