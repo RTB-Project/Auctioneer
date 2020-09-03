@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  auctioneer:
+    image: rtbproject/auctioneer
+    container_name: auctioneer
+    domainname: auctioneer
+    expose:
+      - 8080
+    links:
+      - redis
+    environment:
+      REDIS_URL: common-store-cache:6379
+  redis:
+    image: redis:6.0
+    expose:
+      - 6379
+    container_name: common-store-cache
+    domainname: common-store-cache

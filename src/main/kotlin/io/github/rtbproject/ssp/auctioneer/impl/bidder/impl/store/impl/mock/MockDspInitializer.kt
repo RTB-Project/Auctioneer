@@ -1,7 +1,8 @@
 package io.github.rtbproject.ssp.auctioneer.impl.bidder.impl.store.impl.mock
 
 import io.github.rtbproject.ssp.auctioneer.impl.bidder.BidderCandidate
-import io.github.rtbproject.ssp.auctioneer.impl.bidder.impl.store.BidderStore
+import io.github.rtbproject.ssp.auctioneer.impl.bidder.impl.store.impl.InMemoryBidderStore
+import io.micronaut.context.annotation.Requires
 import io.micronaut.context.event.ApplicationEventListener
 import io.micronaut.runtime.server.event.ServerStartupEvent
 import reactor.core.publisher.Flux
@@ -12,7 +13,8 @@ import javax.inject.Singleton
 import kotlin.streams.toList
 
 @Singleton
-class MockDspInitializer internal constructor(private val bidderStore: BidderStore) :
+@Requires(beans = [InMemoryBidderStore::class])
+class MockDspInitializer internal constructor(private val bidderStore: InMemoryBidderStore) :
         ApplicationEventListener<ServerStartupEvent> {
 
     override fun onApplicationEvent(event: ServerStartupEvent?) {

@@ -5,6 +5,7 @@ import io.github.rtbproject.ssp.auctioneer.impl.bidder.BidderId
 import io.github.rtbproject.ssp.auctioneer.impl.bidder.impl.store.BidderStore
 import io.github.rtbproject.ssp.auctioneer.impl.lot.LotDescriptions
 import io.github.rtbproject.ssp.auctioneer.impl.lot.ProductType
+import io.micronaut.context.annotation.Requires
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.util.concurrent.locks.ReadWriteLock
@@ -13,6 +14,7 @@ import javax.inject.Singleton
 import kotlin.concurrent.withLock
 
 @Singleton
+@Requires(missingBeans = [BidderStore::class])
 internal class InMemoryBidderStore : BidderStore {
 
     private val store: MutableMap<BidderId, BidderCandidate> = HashMap()
@@ -21,7 +23,7 @@ internal class InMemoryBidderStore : BidderStore {
 
     private val lock: ReadWriteLock = ReentrantReadWriteLock()
 
-    override fun save(bidder: BidderCandidate): Mono<BidderCandidate> {
+    fun save(bidder: BidderCandidate): Mono<BidderCandidate> {
         return Mono.fromCallable {
             val writeLock = lock.writeLock()
             writeLock.withLock {
