@@ -12,14 +12,14 @@ import javax.inject.Singleton
 @Singleton
 class DefaultLotsFormer : LotsFormer {
 
-    override fun provideLots(supplierCode: SupplierCode, productSet: Collection<Product>): Mono<Lots> {
+    override fun formLots(supplierCode: SupplierCode, productSet: Collection<Product>): Mono<Lots> {
         return Mono
                 .fromSupplier {
                     productSet.map {
                         Lot.of(
                                 id = UUID.randomUUID(),
                                 value = it.value,
-                                productType = it.productType,
+                                productType = it.type,
                                 supplierCode = supplierCode,
                                 minimalPrice = it.price,
                                 description = it.description,

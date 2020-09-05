@@ -5,7 +5,7 @@ import reactor.core.publisher.Mono
 
 interface BidderOperations {
 
-    fun invite(lotDescriptions: LotDescriptions): Mono<Bidders>
+    fun invite(lotDescriptions: LotDescriptions): Mono<Collection<Bidder>>
 
     fun notifyWinners(winners: List<Winner>): Mono<Void>
 }

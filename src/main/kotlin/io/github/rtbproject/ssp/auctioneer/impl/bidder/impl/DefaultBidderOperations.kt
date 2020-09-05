@@ -6,6 +6,7 @@ import io.github.rtbproject.ssp.auctioneer.impl.bidder.impl.store.BidderStore
 import io.github.rtbproject.ssp.auctioneer.impl.lot.LotDescriptions
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Singleton
 
 @Singleton
@@ -14,27 +15,15 @@ internal class DefaultBidderOperations(
         private val bidderCommunicator: BidderCommunicator
 ) : BidderOperations {
 
-    override fun invite(lotDescriptions: LotDescriptions): Mono<Bidders> {
-        return this.bidderStore
-                .findByLotDescriptions(lotDescriptions)
-                .flatMap { bidderCandidate ->
-                    this.bidderCommunicator
-                            .invite(bidderCandidate, lotDescriptions)
-                            .filter { it is Bid }
-                            .map { it as Bid }
-                            .map { (bidderId, bids) ->
-                                Bidder(bidderId, bids, bidderCandidate.winEndpoint)
-                            }
-                }
-                .collectList()
+    override fun invite(lotDescriptions: LotDescriptions): Mono<Collection<Bidder>> {
+        val productTypes = lotDescriptions.map { lotDescription -> lotDescription.productType }
+        this.bidderStore.findByProductTypes(productTypes)
+
+
     }
 
-    override fun notifyWinners(winners: Winners): Mono<Void> {
-        return Flux.fromIterable(winners)
-                .flatMap { (_, purchasedLots, winEndpoint) ->
-                    this.bidderCommunicator.winNotify(winEndpoint, purchasedLots)
-                }
-                .then()
+    override fun notifyWinners(winners: List<Winner>): Mono<Void> {
+
     }
 
 }

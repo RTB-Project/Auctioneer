@@ -8,43 +8,35 @@ import java.math.BigDecimal
 import java.net.URI
 import java.util.*
 
+typealias DspId = UUID
 
-typealias BidderId = UUID
-
-data class BidderCandidate(
-        val id: BidderId,
+internal data class DSP(
+        val id: DspId,
         val productTypes: Collection<ProductType>,
         val inviteEndpoint: URI,
         val winEndpoint: URI
 )
 
+internal data class BidderCandidate(
+        val id: DspId,
+        val inviteEndpoint: URI
+)
+
 typealias BidAmount = BigDecimal
 
-data class Bidder(
-        val id: BidderId,
-        val bids: Map<LotId, BidAmount>,
-        private val winEndpoint: URI
-) {
-    fun toWinner(purchasedLots: List<PurchasedLot>): Winner =
-            Winner(this.id, purchasedLots, this.winEndpoint)
+data class Bidder(val id: DspId, val bids: Map<LotId, BidAmount>)
+
+data class Winner(val id: DspId, val purchasedLots: List<PurchasedLot>, val winEndpoint: URI)
+
+
+internal sealed class InviteResponse
+
+internal class Bid(val bids: Map<LotId, MoneyAmount>) : InviteResponse() {
+
+    operator fun component1(): Map<LotId, MoneyAmount> = bids
 }
 
-data class Winner(val id: BidderId, val purchasedLots: List<PurchasedLot>, val windEndpoint: URI)
-
-typealias Bidders = List<Bidder>
-typealias Winners = List<Winner>
-
-sealed class InviteResponse(val bidderId: BidderId) {
-    operator fun component1(): BidderId = bidderId
-}
-
-class Bid(bidderId: BidderId, val bids: Map<LotId, MoneyAmount>) : InviteResponse(bidderId) {
-
-    operator fun component2(): Map<LotId, MoneyAmount> = bids
-}
-
-class Decline(bidderId: BidderId) : InviteResponse(bidderId) {
-}
+internal object Decline : InviteResponse()
 
 
 

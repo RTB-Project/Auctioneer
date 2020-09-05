@@ -60,7 +60,7 @@ typealias SupplierCode = String
 
 data class PurchasedLot(val lotValue: LotValue, val paymentAmount: MoneyAmount)
 
-data class Lots(private val lots: Collection<Lot>) : Map<LotId, Lot> by lots.toMap() {
+data class Lots(private val lots: Collection<Lot>) : List<Lot> by lots.sorted() {
 
     fun descriptions(): LotDescriptions {
         return this.lots.map { it.description }
@@ -68,10 +68,4 @@ data class Lots(private val lots: Collection<Lot>) : Map<LotId, Lot> by lots.toM
 
     fun values(): LotValues = this.lots.map { it.value }.map { Pair(it.id, it) }.toMap()
 
-}
-
-// TODO: 24.08.2020 need optimize and test
-private fun Collection<Lot>.toMap(): Map<LotId, Lot> {
-    val buf: MutableMap<LotId, Lot> = TreeMap()
-    return this.sorted().map { Pair(it.id, it) }.toMap(buf)
 }

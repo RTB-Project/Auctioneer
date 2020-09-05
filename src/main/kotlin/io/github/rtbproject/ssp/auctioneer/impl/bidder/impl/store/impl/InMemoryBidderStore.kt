@@ -49,11 +49,4 @@ internal class InMemoryBidderStore : BidderStore {
     }
 
 
-    override fun findByIds(ids: Collection<BidderId>): Flux<BidderCandidate> {
-        return Flux.defer {
-            this.lock.readLock().withLock {
-                Flux.fromIterable(ids.filter { this.store.containsKey(it) }.map { this.store[it]!! })
-            }
-        }
-    }
 }

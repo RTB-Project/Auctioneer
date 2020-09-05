@@ -23,9 +23,6 @@ class RedisBidderStore(
                 .map { (_, value) -> value }
     }
 
-    override fun findByIds(ids: Collection<BidderId>): Flux<BidderCandidate> {
-        TODO("Not yet implemented")
-    }
 }
 
 operator fun <K, V> KeyValue<K, V>.component1(): K {
