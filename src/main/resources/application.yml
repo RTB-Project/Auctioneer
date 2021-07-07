@@ -8,3 +8,5 @@ micronaut:
       swagger:
         paths: classpath:META-INF/swagger
         mapping: /swagger/**
+#redis:
+#  uri: ${REDIS_URL}

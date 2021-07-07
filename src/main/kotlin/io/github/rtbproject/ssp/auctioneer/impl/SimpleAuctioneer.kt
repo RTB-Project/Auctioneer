@@ -1,16 +1,13 @@
 package io.github.rtbproject.ssp.auctioneer.impl
 
 import io.github.rtbproject.ssp.auctioneer.Auctioneer
-import io.github.rtbproject.ssp.auctioneer.impl.auction.AuctionResult
-import io.github.rtbproject.ssp.auctioneer.impl.auction.AuctionResults
 import io.github.rtbproject.ssp.auctioneer.impl.auction.AuctionStrategy
-import io.github.rtbproject.ssp.auctioneer.impl.bidder.BidderId
 import io.github.rtbproject.ssp.auctioneer.impl.bidder.BidderOperations
 import io.github.rtbproject.ssp.auctioneer.impl.bidder.Bidders
+import io.github.rtbproject.ssp.auctioneer.impl.bidder.Winners
 import io.github.rtbproject.ssp.auctioneer.impl.entrypoint.Product
 import io.github.rtbproject.ssp.auctioneer.impl.history.HistoryStore
 import io.github.rtbproject.ssp.auctioneer.impl.lot.*
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import javax.inject.Singleton
 
@@ -26,15 +23,15 @@ class SimpleAuctioneer internal constructor(
         val lots: Mono<Lots> = formLots(supplierCode, productSet)
         val lotDescriptions: Mono<LotDescriptions> = describeLots(lots)
         val biddersMono: Mono<Bidders> = inviteBidders(lotDescriptions)
-        val auctionResults: Mono<AuctionResults> = holdAuction(lots, biddersMono)
+        val winners: Mono<Winners> = holdAuction(lots, biddersMono)
 
-        val holdAuction: Mono<Void> = auctionResults.then()
+        val holdAuction: Mono<Void> = winners.then()
 
-        val saveHistory: Mono<Void> = saveHistory(auctionResults, lotDescriptions, biddersMono)
+        val saveHistory: Mono<Void> = saveHistory(winners, lotDescriptions)
 
-        val notifyWinners: Mono<Void> = notifyWinners(auctionResults, lots.values())
+        val notifyWinners: Mono<Void> = notifyWinners(winners)
 
-        val sumProfit: Mono<MoneyAmount> = calculateGoodsSupplierProfit(auctionResults)
+        val sumProfit: Mono<MoneyAmount> = calculateGoodsSupplierProfit(winners)
 
         return holdAuction.then(saveHistory).then(notifyWinners).then(sumProfit)
 
@@ -53,57 +50,37 @@ class SimpleAuctioneer internal constructor(
                     .flatMap { lotDescriptions -> this.bidderOperations.invite(lotDescriptions) }
 
     private fun saveHistory(
-            auctionResultsMono: Mono<AuctionResults>,
-            lotDescriptionsMono: Mono<LotDescriptions>,
-            biddersMono: Mono<Bidders>
+            auctionResultsMono: Mono<Winners>,
+            lotDescriptionsMono: Mono<LotDescriptions>
     ): Mono<Void> =
-            Flux.zip(auctionResultsMono, lotDescriptionsMono, biddersMono)
-                    .next()
-                    .flatMap { (auctionResults, lotDescriptions, bidders) ->
-                        this.historyStore.save(auctionResults, lotDescriptions, bidders)
+            Mono.zip(auctionResultsMono, lotDescriptionsMono)
+                    .flatMap { (auctionResults, lotDescriptions) ->
+                        this.historyStore.save(auctionResults, lotDescriptions)
                     }
 
 
-    private fun holdAuction(lotsMono: Mono<Lots>, biddersMono: Mono<Bidders>): Mono<AuctionResults> =
+    private fun holdAuction(lotsMono: Mono<Lots>, biddersMono: Mono<Bidders>): Mono<Winners> =
             lotsMono
-                    .map { lots -> lots.identifiers }
+                    .map { lots -> lots.values() }
                     .zipWith(biddersMono)
                     .flatMap { (lots, bidders) -> this.auctionStrategy.holdAuction(bidders, lots) }
                     .cache()
 
 
-    private fun groupLotByBidder(auctionResults: List<AuctionResult>, lots: Map<LotId, LotValue>)
-            : Map<BidderId, List<PurchasedLot>> {
-        return auctionResults
-                .map { auctionResult -> Pair(auctionResult, lots[auctionResult.lotId]!!) }
-                .groupBy(
-                        { (auctionResult, _) -> auctionResult.bidderId },
-                        { (auctionResult, lot) ->
-                            PurchasedLot(lot, auctionResult.paymentAmount)
-                        }
-                )
-    }
-
-    private fun notifyWinners(auctionResultsMono: Mono<List<AuctionResult>>, lotsMono: Mono<Map<LotId, LotValue>>): Mono<Void> {
-        return auctionResultsMono
-                .zipWith(lotsMono)
-                .map { (results, lots) ->
-                    this.groupLotByBidder(results, lots)
-                }
+    private fun notifyWinners(winnersMono: Mono<Winners>): Mono<Void> {
+        return winnersMono
                 .flatMap { winners ->
                     this.bidderOperations.notifyWinners(winners)
                 }
     }
 
-    private fun calculateGoodsSupplierProfit(auctionResultsMono: Mono<List<AuctionResult>>): Mono<MoneyAmount> {
-        return auctionResultsMono
-                .map { results ->
-                    results.map { it.paymentAmount }.sum()
+    private fun calculateGoodsSupplierProfit(winnersMono: Mono<Winners>): Mono<MoneyAmount> {
+        return winnersMono
+                .map { winners ->
+                    winners.flatMap { winner -> winner.purchasedLots }
+                            .map { purchasedLot -> purchasedLot.paymentAmount }
+                            .sum()
                 }
-    }
-
-    private fun Mono<Lots>.values(): Mono<Map<LotId, LotValue>> = this.map { lots ->
-        lots.mapValues { (_, lot) -> lot.value }
     }
 
 }

@@ -52,6 +52,7 @@ class Lot private constructor(
 }
 
 typealias LotDescriptions = List<LotDescription>
+typealias LotValues = Map<LotId, LotValue>
 
 typealias MoneyAmount = BigDecimal
 
@@ -65,7 +66,7 @@ data class Lots(private val lots: Collection<Lot>) : Map<LotId, Lot> by lots.toM
         return this.lots.map { it.description }
     }
 
-    val identifiers: Set<LotId> = this.keys
+    fun values(): LotValues = this.lots.map { it.value }.map { Pair(it.id, it) }.toMap()
 
 }
 
